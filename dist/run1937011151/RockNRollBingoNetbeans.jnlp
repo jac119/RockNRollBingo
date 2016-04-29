@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="RockNRollBingoNetbeans.jnlp">
+  <information>
+    <title>RockNRollBingoNetbeans</title>
+    <vendor>Jeff</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="2.2+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="RockNRollBingoNetbeans.jar" size="25183" download="eager" />
+    <jar href="lib/customizer.jar" size="71644" download="eager" />
+    <jar href="lib/jl1.0.1.jar" size="105363" download="eager" />
+    <jar href="lib/jmf.jar" size="1904171" download="eager" />
+    <jar href="lib/mediaplayer.jar" size="39078" download="eager" />
+    <jar href="lib/mp3agic-0.8.1.jar" size="78595" download="eager" />
+    <jar href="lib/multiplayer.jar" size="63515" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="RockNRollBingoNetbeans" >
+    <param name="requiredFXVersion" value="2.2+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="rocknrollbingonetbeans.rocknrollbingonetbeans"  name="RockNRollBingoNetbeans" />
+  <update check="always"/>
+</jnlp>
