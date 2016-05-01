@@ -11,7 +11,7 @@
   </resources>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="RockNRollBingoNetbeans.jar" size="29321" download="eager" />
+    <jar href="RockNRollBingoNetbeans.jar" size="30600" download="eager" />
     <jar href="lib/customizer.jar" size="71644" download="eager" />
     <jar href="lib/jl1.0.1.jar" size="105363" download="eager" />
     <jar href="lib/jmf.jar" size="1904171" download="eager" />

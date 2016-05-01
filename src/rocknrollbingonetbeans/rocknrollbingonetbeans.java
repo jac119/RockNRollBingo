@@ -14,12 +14,12 @@ import javafx.stage.Stage;
  */
 public class rocknrollbingonetbeans extends Application{
     public static void main(String[] args){
-        NewJFrame jframe = new NewJFrame();
+        BingoJFrame jframe = new BingoJFrame();
     }
 
     @Override
     public void start(Stage stage) throws Exception {
-        NewJFrame jframe = new NewJFrame();
+        BingoJFrame jframe = new BingoJFrame();
         jframe.setVisible(true);
     }
 }

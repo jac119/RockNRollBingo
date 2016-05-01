@@ -5,38 +5,30 @@
  */
 package rocknrollbingonetbeans;
 
-import com.mpatric.mp3agic.*;
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Jeff
  */
-public class NewJFrame extends javax.swing.JFrame {
-
-    SimpleMediaPlayer media;
-    TreeSet<String> artistNames;
+public class BingoJFrame extends javax.swing.JFrame {
     File dir;
-    //String currentFileName = "C:\\Users\\Jeff\\Desktop\\BarAndBingoStuff\\RockNRollBingo\\Bingo mp3s itunes\\Alanis Morissette - Everything.mp3";
     ArrayList<String> fileNames;
-    boolean isPaused;
-    boolean newGameStarted;
+
+    private BingoRound currentRound;
+    
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public BingoJFrame() {
         initComponents();
         fileNames = new ArrayList<String>();
-        isPaused = true;
+        if (currentRound != null)
+                currentRound.Pause();
     }
 
     /**
@@ -48,7 +40,6 @@ public class NewJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jFrame1 = new javax.swing.JFrame();
         fileChooser = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         artistNameTextbox = new javax.swing.JTextArea();
@@ -56,20 +47,11 @@ public class NewJFrame extends javax.swing.JFrame {
         pauseButton = new javax.swing.JButton();
         resumeButton = new javax.swing.JButton();
         selectFolderButton = new javax.swing.JButton();
+        nowPlayingHeader = new javax.swing.JLabel();
+        nowPlayingText = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-
-        javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
-        jFrame1.getContentPane().setLayout(jFrame1Layout);
-        jFrame1Layout.setHorizontalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        jFrame1Layout.setVerticalGroup(
-            jFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
 
         fileChooser.setApproveButtonText("Select Folder");
         fileChooser.setCurrentDirectory(null);
@@ -109,6 +91,9 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        nowPlayingHeader.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        nowPlayingHeader.setText("Now Playing:");
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -125,13 +110,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 224, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(startNewRoundButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pauseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(resumeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(67, 67, 67))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(startNewRoundButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pauseButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(resumeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(67, 67, 67))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(nowPlayingText, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nowPlayingHeader, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(selectFolderButton)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -144,13 +137,19 @@ public class NewJFrame extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(startNewRoundButton)
                         .addGap(18, 18, 18)
                         .addComponent(pauseButton)
                         .addGap(18, 18, 18)
-                        .addComponent(resumeButton))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(resumeButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nowPlayingHeader)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(nowPlayingText)
+                        .addGap(120, 120, 120))))
         );
 
         pack();
@@ -158,33 +157,31 @@ public class NewJFrame extends javax.swing.JFrame {
 
     private void startNewRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewRoundButtonActionPerformed
         // TODO add your handling code here:
-        if (media != null) media.close();
-        newGameStarted = true;
-        isPaused = false;
-        artistNames = new TreeSet<String>();
-        Collections.shuffle(fileNames);
-        doPlayingAndListing();
+        if (currentRound != null)
+            currentRound.End();
+        currentRound = new BingoRound(dir,fileNames, artistNameTextbox, nowPlayingText);
+        
     }//GEN-LAST:event_startNewRoundButtonActionPerformed
 
     private void resumeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeButtonActionPerformed
         // TODO add your handling code here:
-        isPaused = false;
+        currentRound.Resume();
     }//GEN-LAST:event_resumeButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
         // TODO add your handling code here:
-        media.close();
-        isPaused = true;
+        
+        currentRound.Pause();
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void selectFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectFolderButtonActionPerformed
         // TODO add your handling code here:
+        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
         int returnVal = fileChooser.showOpenDialog(this);
-        if (returnVal == fileChooser.APPROVE_OPTION) {
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            fileChooser.setAcceptAllFileFilterUsed(false);
-            dir = fileChooser.getCurrentDirectory();
-            File file = fileChooser.getSelectedFile();
+        if (returnVal == fileChooser.APPROVE_OPTION) {                        
+            dir = fileChooser.getSelectedFile();
+            
             File[] files = dir.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File dir, String name) {
@@ -195,6 +192,11 @@ public class NewJFrame extends javax.swing.JFrame {
             for (File thisFile : files) {
                 fileNames.add(thisFile.getAbsolutePath());
             }
+            if (files.length > 0)
+                JOptionPane.showMessageDialog(this, "MP3s loaded");
+                        else
+                JOptionPane.showMessageDialog(this, "No MP3s Found");
+                    
         } else {
             System.out.println("File access cancelled by user.");
         }
@@ -218,20 +220,21 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BingoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BingoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BingoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BingoJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NewJFrame().setVisible(true);
+                new BingoJFrame().setVisible(true);
             }
         });
     }
@@ -239,79 +242,19 @@ public class NewJFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea artistNameTextbox;
     private javax.swing.JFileChooser fileChooser;
-    private javax.swing.JFrame jFrame1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel nowPlayingHeader;
+    private javax.swing.JLabel nowPlayingText;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton resumeButton;
     private javax.swing.JButton selectFolderButton;
     private javax.swing.JButton startNewRoundButton;
     // End of variables declaration//GEN-END:variables
 
-    private void doPlayingAndListing(){
-        new Thread() {
-            public void run() {
-                String lastFileName = null;
-                for (int songNum = 0; songNum < fileNames.size(); songNum++) {
-                    if (isPaused) {
-                        songNum--;
-                    }
-                    while (isPaused) {
-                        try {
-                            TimeUnit.SECONDS.sleep(1);
-                            } catch (InterruptedException ex) {
-                                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        };
-                        String currentFileName = fileNames.get(songNum);
-                      
-                        if (lastFileName != null && songNum > 0) {
-                            if(lastFileName != fileNames.get(songNum-1)) {
-                                return;
-                            }
-                    }
-                        if (media != null) {
-                            media.close();
-                    }
-                        media = new SimpleMediaPlayer(currentFileName);
-                        media.play();
-                        try {
-                            //Grab artist name when media plays
-                            Mp3File mp3tag = new Mp3File(currentFileName);
-                            if (!mp3tag.hasId3v2Tag()) {
-                                artistNames.add(currentFileName.replace(dir.getPath()+"\\", "") + "(Track Missing ID3V2 Tag)");
-                            } else {
-                                artistNames.add(mp3tag.getId3v2Tag().getArtist());
-                            }
-                        } catch (IOException ex) {
-                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (UnsupportedTagException ex) {
-                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InvalidDataException ex) {
-                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-
-                        
-                        artistNameTextbox.setText(artistNames.toString().replace("[", "").replace("]", "").replace(", ", "\n"));
-                        artistNameTextbox.validate();
-                        
-                        try {
-                            TimeUnit.SECONDS.sleep(5);
-                        } catch (InterruptedException ex) {
-                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        if (songNum == 0){
-                            newGameStarted = false;
-                        }
-                            if (!isPaused)
-                            lastFileName = currentFileName;
-                        
-                    }
-                }
-            
-        }.start();
+    
         
     }
-}
+
