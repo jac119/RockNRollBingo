@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public class BingoJFrame extends javax.swing.JFrame {
     File dir;
     ArrayList<String> fileNames;
-
+    int clipTime = 30;
     private BingoRound currentRound;
     
     /**
@@ -41,6 +41,13 @@ public class BingoJFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         fileChooser = new javax.swing.JFileChooser();
+        optionsJFrame = new javax.swing.JFrame();
+        optionsPanel = new javax.swing.JPanel();
+        optionsLabel = new javax.swing.JLabel();
+        clipTimeLabel = new javax.swing.JLabel();
+        clipTimeTextField = new javax.swing.JTextField();
+        secondsLabel = new javax.swing.JLabel();
+        optionsOKButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         artistNameTextbox = new javax.swing.JTextArea();
         startNewRoundButton = new javax.swing.JButton();
@@ -51,11 +58,89 @@ public class BingoJFrame extends javax.swing.JFrame {
         nowPlayingText = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        optionsMenuItem = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         fileChooser.setApproveButtonText("Select Folder");
         fileChooser.setCurrentDirectory(null);
         fileChooser.setDialogTitle("Select Folder With Clips For This Game");
+
+        optionsJFrame.setMinimumSize(new java.awt.Dimension(370, 173));
+
+        optionsLabel.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        optionsLabel.setText("Options:");
+
+        clipTimeLabel.setText("Time to play clips (default 30):");
+
+        clipTimeTextField.setText("30");
+        clipTimeTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clipTimeTextFieldActionPerformed(evt);
+            }
+        });
+
+        secondsLabel.setText("seconds");
+
+        optionsOKButton.setText("Ok");
+        optionsOKButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionsOKButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(optionsOKButton)
+                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(optionsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(clipTimeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clipTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(secondsLabel)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(optionsLabel)
+                .addGap(18, 18, 18)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(clipTimeLabel)
+                    .addComponent(clipTimeTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(secondsLabel))
+                .addGap(18, 18, 18)
+                .addComponent(optionsOKButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout optionsJFrameLayout = new javax.swing.GroupLayout(optionsJFrame.getContentPane());
+        optionsJFrame.getContentPane().setLayout(optionsJFrameLayout);
+        optionsJFrameLayout.setHorizontalGroup(
+            optionsJFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 370, Short.MAX_VALUE)
+            .addGroup(optionsJFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(optionsJFrameLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        optionsJFrameLayout.setVerticalGroup(
+            optionsJFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 173, Short.MAX_VALUE)
+            .addGroup(optionsJFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(optionsJFrameLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -95,6 +180,15 @@ public class BingoJFrame extends javax.swing.JFrame {
         nowPlayingHeader.setText("Now Playing:");
 
         jMenu1.setText("File");
+
+        optionsMenuItem.setText("Options");
+        optionsMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                optionsMenuItemActionPerformed(evt);
+            }
+        });
+        jMenu1.add(optionsMenuItem);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -202,6 +296,23 @@ public class BingoJFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_selectFolderButtonActionPerformed
 
+    private void clipTimeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clipTimeTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clipTimeTextFieldActionPerformed
+
+    private void optionsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsMenuItemActionPerformed
+        // TODO add your handling code here:
+        optionsJFrame.setSize(optionsPanel.getSize());
+        optionsJFrame.setVisible(true);
+
+    }//GEN-LAST:event_optionsMenuItemActionPerformed
+
+    private void optionsOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsOKButtonActionPerformed
+        // TODO add your handling code here:
+        clipTime = Integer.parseInt(clipTimeTextField.getText());
+        optionsJFrame.setVisible(false);
+    }//GEN-LAST:event_optionsOKButtonActionPerformed
+
 
     /**
      * @param args the command line arguments
@@ -241,6 +352,8 @@ public class BingoJFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea artistNameTextbox;
+    private javax.swing.JLabel clipTimeLabel;
+    private javax.swing.JTextField clipTimeTextField;
     private javax.swing.JFileChooser fileChooser;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -248,8 +361,14 @@ public class BingoJFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel nowPlayingHeader;
     private javax.swing.JLabel nowPlayingText;
+    private javax.swing.JFrame optionsJFrame;
+    private javax.swing.JLabel optionsLabel;
+    private javax.swing.JMenuItem optionsMenuItem;
+    private javax.swing.JButton optionsOKButton;
+    private javax.swing.JPanel optionsPanel;
     private javax.swing.JButton pauseButton;
     private javax.swing.JButton resumeButton;
+    private javax.swing.JLabel secondsLabel;
     private javax.swing.JButton selectFolderButton;
     private javax.swing.JButton startNewRoundButton;
     // End of variables declaration//GEN-END:variables
