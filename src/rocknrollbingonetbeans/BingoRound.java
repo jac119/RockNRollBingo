@@ -34,13 +34,15 @@ public class BingoRound {
     JTextArea artistNameTextbox;
     private boolean isEnded;
     JLabel nowPlayingText;
-    public BingoRound(File directory,ArrayList<String> fileNamesIn, JTextArea textbox, JLabel nowPlaying){
+    int clipTime;
+    public BingoRound(File directory,ArrayList<String> fileNamesIn, JTextArea textbox, JLabel nowPlaying, int clipTimeIn){
     if (media != null) media.close();
         newGameStarted = true;
         isPaused = false;
         artistNames = new TreeSet<String>();
         fileNames = fileNamesIn;
         Collections.shuffle(fileNames);
+        clipTime = clipTimeIn;
         doPlayingAndListing();
         artistNameTextbox = textbox;
         dir = directory;
@@ -96,7 +98,7 @@ public class BingoRound {
                         artistNameTextbox.validate();
                         
                         try {
-                            TimeUnit.SECONDS.sleep(5);
+                            TimeUnit.SECONDS.sleep(clipTime);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(BingoJFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }

@@ -250,26 +250,21 @@ public class BingoJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startNewRoundButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startNewRoundButtonActionPerformed
-        // TODO add your handling code here:
         if (currentRound != null)
             currentRound.End();
-        currentRound = new BingoRound(dir,fileNames, artistNameTextbox, nowPlayingText);
+        currentRound = new BingoRound(dir,fileNames, artistNameTextbox, nowPlayingText, clipTime);
         
     }//GEN-LAST:event_startNewRoundButtonActionPerformed
 
     private void resumeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resumeButtonActionPerformed
-        // TODO add your handling code here:
         currentRound.Resume();
     }//GEN-LAST:event_resumeButtonActionPerformed
 
     private void pauseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pauseButtonActionPerformed
-        // TODO add your handling code here:
-        
         currentRound.Pause();
     }//GEN-LAST:event_pauseButtonActionPerformed
 
     private void selectFolderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectFolderButtonActionPerformed
-        // TODO add your handling code here:
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 
         int returnVal = fileChooser.showOpenDialog(this);
@@ -297,18 +292,15 @@ public class BingoJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_selectFolderButtonActionPerformed
 
     private void clipTimeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clipTimeTextFieldActionPerformed
-        // TODO add your handling code here:
     }//GEN-LAST:event_clipTimeTextFieldActionPerformed
 
     private void optionsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsMenuItemActionPerformed
-        // TODO add your handling code here:
         optionsJFrame.setSize(optionsPanel.getSize());
         optionsJFrame.setVisible(true);
 
     }//GEN-LAST:event_optionsMenuItemActionPerformed
 
     private void optionsOKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_optionsOKButtonActionPerformed
-        // TODO add your handling code here:
         clipTime = Integer.parseInt(clipTimeTextField.getText());
         optionsJFrame.setVisible(false);
     }//GEN-LAST:event_optionsOKButtonActionPerformed
